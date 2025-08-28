@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #0e2c5b;
+  --color-add-green: #6dba43;
+  --color-add-green-hover: #65a83e;
+  --color-clean-blue: #1ba2db;
+  --color-clean-blue-hover: #1a94c7;
+  --font-sans: 'InterVariable', ui-sans-serif, system-ui, sans-serif;
+  --font-sans--font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+}
+
+@layer utilities {
+  .font-dancing {
+    font-family: "Dancing Script", cursive;
+  }
+}
+
+@layer components{
+  .slider {
+    @apply grid;
+    grid-template-areas: "slide";
+  }
+
+  .slider-children {
+    grid-area: slide;
+  }
+
+  .slider-dots {
+    grid-area: slide;
+    @apply z-[100] self-end justify-self-center;
+  }
+
+  .slider-arrow-prev {
+    grid-area: slide;
+    @apply z-[100] self-center justify-self-start;
+  }
+
+  .slider-arrow-next {
+    grid-area: slide;
+    @apply z-[100] self-center justify-self-end;
+  }
+
+}
