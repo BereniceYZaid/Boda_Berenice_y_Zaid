@@ -13,8 +13,8 @@ const PrincipalPage = () => {
 
     const {
         data: images = [],
-        isLoadingImages,
-        errorImages,
+        isLoading: isLoadingImages,
+        error: errorImages,
     } = useQuery({
         queryKey: ["images"],
         queryFn: fetchImagenes,
@@ -22,17 +22,17 @@ const PrincipalPage = () => {
 
     const {
         data: categories = [],
-        isLoadingCategories,
-        errorCategories,
+        isLoading: isLoadingCategories,
+        error: errorCategories,
     } = useQuery({
         queryKey: ["categories"],
         queryFn: fetchCategories,
     });
 
     const {
-        data: username = [],
-        isLoadingUsername,
-        errorUsername,
+        data: username = {},
+        isLoading: isLoadingUsername,
+        error: errorUsername,
     } = useQuery({
         queryKey: ["username"],
         queryFn: fetchUsername,
@@ -41,9 +41,9 @@ const PrincipalPage = () => {
     /* Return */
 
     return <>
-        <Header user={username} />
-        <Slider images={images} />
-        <Categories categories={categories} />
+        <Header user={username} isLoading={isLoadingUsername} error={errorUsername} />
+        <Slider images={images} isLoading={isLoadingImages} error={errorImages} />
+        <Categories categories={categories} isLoading={isLoadingCategories} error={errorCategories} />
         <ImageGrid images={images} />
         <ImagePages />
         <Footer />

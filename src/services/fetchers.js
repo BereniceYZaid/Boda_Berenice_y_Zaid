@@ -55,6 +55,22 @@ export const fetchImagenes = async () => {
             category: "After",
             uploaded_by: "Juan Diego Quijada Castillo"
         },
+        {
+            id: 6,
+            src: "/images/5.jpg",
+            title: "Titulo6",
+            subtitle: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam quis aliquet nunc, id",
+            category: "After",
+            uploaded_by: "Juan Diego Quijada Castillo"
+        },
+        {
+            id: 7,
+            src: "/images/5.jpg",
+            title: "Titulo7",
+            subtitle: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam quis aliquet nunc, id",
+            category: "After",
+            uploaded_by: "Juan Diego Quijada Castillo"
+        },
     ];
     return simulateDelay(images);
 };
@@ -69,6 +85,7 @@ export const fetchCategories = async () => {
 }
 
 export const fetchUsername = async () => {
-    const username = {id: 50, name: "Juan Diego Quijada Castillo"}
+    const username =
+        {id: 50, name: "Juan Diego Quijada Castillo", email:"diego.quijada03@gmail.com"};
     return simulateDelay(username);
 }
