@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 export default function Slider({images, isLoading, error}) {
 
     const [activeIndex, setActiveIndex] = useState(0);
+    const [touchStart, setTouchStart] = useState(0);
 
     /* Limitar slides a 5 */
     const maxSlides = images.slice(0, 5);
@@ -23,9 +24,24 @@ export default function Slider({images, isLoading, error}) {
         setActiveIndex((prev) => (prev - 1 + maxSlides.length) % maxSlides.length);
     }
 
+    /* Manejo de touch para dispositivos moviles */
+    const handleTouchStart = (e) => {
+        setTouchStart(e.touches[0].clientX);
+    }
+    const handleTouchEnd = (e) => {
+        const touchEnd = e.changedTouches[0].clientX;
+        if (touchStart - touchEnd > 50) {
+            nextSlide();
+        } else if (touchStart - touchEnd < -50) {
+            prevSlide();
+        }
+    }
+
     return (
             <section id="slider"
-                     className="w-[90%] mx-auto max-w-screen-xl overflow-hidden rounded-3xl mt-10 slider group">
+                     className="w-[90%] mx-auto max-w-screen-xl overflow-hidden rounded-3xl mt-10 slider group"
+                     onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}
+            >
 
                 {/* Este es el Slider */}
 
