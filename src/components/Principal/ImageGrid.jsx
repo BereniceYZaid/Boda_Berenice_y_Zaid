@@ -57,7 +57,7 @@ export default function ImageGrid({images, category, isLoading, firstImage}) {
                                     ease-in-out animate__animated animate__fadeIn" key={index}
                                 style={{ animationDelay: `${index * 25}ms` }} onClick={() => photoClick(image)}
                             >
-                                <img src={image.src} alt={image.title}
+                                <img src={image.link} alt={image.title}
                                     className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-300 ease-in-out"/>
                                 <div
                                     className="inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent absolute opacity-0 group-hover:opacity-100"></div>

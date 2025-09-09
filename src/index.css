@@ -29,17 +29,17 @@
 
   .slider-dots {
     grid-area: slide;
-    @apply z-[100] self-end justify-self-center;
+    @apply z-[40] self-end justify-self-center;
   }
 
   .slider-arrow-prev {
     grid-area: slide;
-    @apply z-[100] self-center justify-self-start;
+    @apply z-[40] self-center justify-self-start;
   }
 
   .slider-arrow-next {
     grid-area: slide;
-    @apply z-[100] self-center justify-self-end;
+    @apply z-[40] self-center justify-self-end;
   }
 
 }

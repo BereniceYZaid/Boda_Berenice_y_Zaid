@@ -51,7 +51,7 @@ export default function Slider({images, isLoading, error}) {
                         key={index}
                     >
 
-                        <img src={slide.src} className="w-full h-full block object-cover" alt="Cargando..."/>
+                        <img src={slide.link} className="w-full h-full block object-cover" alt="Cargando..."/>
                         <div
                             className="absolute inset-0 w-full h-full bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
                         <div className="absolute inset-0  w-[90%] mx-auto h-max mt-auto pb-8">
@@ -59,7 +59,7 @@ export default function Slider({images, isLoading, error}) {
                                 {slide.title}
                             </h3>
                             <p className="font-sans text-white opacity-90 text-md truncate">
-                                {slide.subtitle}
+                                {slide.description}
                             </p>
                         </div>
 

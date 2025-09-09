@@ -25,13 +25,19 @@ const PrincipalPage = () => {
         fetchNextPage,
         hasNextPage,
         isFetchingNextPage
-    } = useInfiniteQuery ({
+    } = useInfiniteQuery({
         queryKey: ["images", category],
-        queryFn: ({pageParam = 1}) =>
-            fetchImagenes(pageParam, null, category),
+        queryFn: ({ pageParam = 1 }) => {
+            // 🔹 Primer request: guardar el último ID
+            const lastID = images?.pages?.[0]?.lastID;
+            return fetchImagenes(pageParam, lastID, category);
+        },
         getNextPageParam: (lastPage, allPages) =>
             lastPage.hasMore ? allPages.length + 1 : undefined,
     });
+
+    console.log(images?.pages[0]?.items[0]?._id);
+
 
     const {
         data: categories = [],
@@ -62,7 +68,6 @@ const PrincipalPage = () => {
     React.useEffect(() => {
         if (sliderImages.length === 0 && allImages.length > 0 ){
             setSliderImages(allImages);
-            console.log("sliderImages", sliderImages);
         }
     },[allImages, sliderImages]);
 
@@ -70,7 +75,7 @@ const PrincipalPage = () => {
 
     return <>
         <Header user={username} isLoading={isLoadingUsername}
-                error={errorUsername} />
+                error={errorUsername} categories={categories}/>
         <Title></Title>
         <Slider images={sliderImages} isLoading={sliderImages.length === 0} error={errorImages} />
         <Categories categories={categories} isLoading={isLoadingCategories}
