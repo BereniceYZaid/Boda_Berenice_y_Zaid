@@ -1,7 +1,12 @@
 import { X, Upload, Camera, Check } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import {useState} from "react";
 
 export default function UploadModal(closeModal) {
+
+    const [title, setTitle] = useState("");
+    const [subtitle, setSubtitle] = useState("");
+    const [files, setFiles] = useState([])
 
     return (
         <div
@@ -22,7 +27,7 @@ export default function UploadModal(closeModal) {
 
                 </div>
 
-                <form onSubmit={} className="space-y-6">
+                <form onSubmit={handleUpload} className="space-y-6">
                     <div>
 
                         <label className="font-inter text-sm font-medium text-gray-700 mb-2 block">
@@ -33,6 +38,29 @@ export default function UploadModal(closeModal) {
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
                             placeholder="Ej: Intercambio de anillos"
+                            className="rounded-xl border-gray-200 focus:border-rose-300 focus:ring-rose-200"
+                            required
+                        />
+
+                        <label className="font-inter text-sm font-medium text-gray-700 my-2 block">
+                            Subtitulo *
+                        </label>
+
+                        <Input
+                            value={subtitle}
+                            onChange={(e) => setSubtitle(e.target.value)}
+                            placeholder="Ej: Intercambio de anillos"
+                            className="rounded-xl border-gray-200 focus:border-rose-300 focus:ring-rose-200"
+                            required
+                        />
+
+                        <label className="font-inter text-sm font-medium text-gray-700 my-2 block">
+                            Imagenes (Minimo debes subir 1 imagen) *
+                        </label>
+
+                        <Input
+                            value={title}
+                            onChange={(e) => setSubtitle(e.target.value)}
                             className="rounded-xl border-gray-200 focus:border-rose-300 focus:ring-rose-200"
                             required
                         />
