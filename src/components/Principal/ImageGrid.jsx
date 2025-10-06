@@ -7,21 +7,35 @@ export default function ImageGrid({images, category, isLoading, firstImage}) {
     const [displayImages, setDisplayImages] = useState([]);
     const [currentCategory, setCurrentCategory] = useState("Todos");
     const [selectedPhoto, setSelectedPhoto] = useState(null);
+    const [currentIndex, setCurrentIndex] = useState(null);
 
-    const photoClick = (photo) => {
+    const photoClick = (photo, index) => {
         setSelectedPhoto(photo);
+        setCurrentIndex(index);
     };
 
     const unClickPhoto = () => {
         setSelectedPhoto(null);
     };
 
+    const nextPhoto = () => {
+        const nextIndex = (currentIndex + 1) % displayImages.length;
+        setSelectedPhoto(displayImages[nextIndex]);
+        setCurrentIndex(nextIndex);
+    }
+
+    const prevPhoto = () => {
+        const prevIndex = (currentIndex - 1 + displayImages.length) % displayImages.length;
+        setSelectedPhoto(displayImages[prevIndex]);
+        setCurrentIndex(prevIndex);
+    }
+
     useEffect(() => {
         if (currentCategory !== category) {
             setDisplayImages([]);
             setCurrentCategory(category);
         }
-        
+
         const timeout = setTimeout(() => {
             setDisplayImages(images);
         }, 100);
@@ -55,7 +69,7 @@ export default function ImageGrid({images, category, isLoading, firstImage}) {
                                 className="relative border-gray-200 shadow-sm border-2 w-full aspect-square bg-gray-200 rounded-2xl
                                     overflow-hidden cursor-pointer group col-span-1 hover:scale-105 transition-transform duration-300
                                     ease-in-out animate__animated animate__fadeIn" key={index}
-                                style={{ animationDelay: `${index * 25}ms` }} onClick={() => photoClick(image)}
+                                style={{ animationDelay: `${index * 25}ms` }} onClick={() => photoClick(image, index)}
                             >
                                 <img src={image.link} alt={image.title}
                                     className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-300 ease-in-out"/>
@@ -74,7 +88,8 @@ export default function ImageGrid({images, category, isLoading, firstImage}) {
             {/* Aquí va el modal para cuando le das clic a una imagen :D */}
 
             {selectedPhoto && (
-                <ImageModal image={selectedPhoto} closeModal={unClickPhoto}></ImageModal>
+                <ImageModal image={selectedPhoto} closeModal={unClickPhoto} nextPhoto={nextPhoto} prevPhoto={prevPhoto}
+                            currentIndex={currentIndex}></ImageModal>
             )}
         </section>
     )

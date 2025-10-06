@@ -20,21 +20,12 @@ export default function Header({user, isLoading, error, categories}) {
                             <Heart className="w-5 h-5 text-white" />
                         </div>
                         <div className="flex items-center justify-center inset-0">
-                            <h1 className="font-dancing text-2xl sm:text-3xl lg:text-4xl font-semibold text-gray-800 leading-tight ">
-                                Nuestro Gran Dia
+                            <h1 className="font-bodoni text-2xl sm:text-3xl lg:text-4xl text-gray-800 leading-tight ">
+                                Berenice & Zaid
                             </h1>
                         </div>
                     </div>
                     <div className="flex gap-5">
-                        <div className="flex items-center justify-center inset-0 hidden md:flex">
-                            {isLoading ? (
-                                <span className="font-sans text-sm text-gray-600">Cargando...</span>
-                            ) : error ? (
-                                <span className="font-sans text-sm text-red-600">Error al cargar el usuario</span>
-                            ) : (
-                                <span className="font-sans text-sm text-gray-600">¡Hola <span className="truncate">{user.name}</span>!</span>
-                            )}
-                        </div>
                         <button
                             className="rounded-full text-sm bg-gradient-to-r from-rose-500 to-violet-500 text-white font-sans w-30 font-semibold inline-flex items-center justify-center inset-0 cursor-pointer hover:brightness-90 transition duration-300 ease-in-out h-10"
                             onClick={() => { setUploadModal(true) }}

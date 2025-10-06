@@ -1,4 +1,4 @@
-import {X, Upload, Camera, Check, Text} from "lucide-react";
+import {X, Upload, Camera, Check} from "lucide-react";
 import { Input } from "../ui/input";
 import { Textarea} from "../ui/textarea";
 import {
@@ -35,6 +35,7 @@ export default function UploadModal({closeModal, categories}) {
 
         try {
             for (let i = 0; i < archivos.length; i++) {
+                console.log(1, archivos[i])
                 let archivo = archivos[i];
                 await fetchFormImagen(titulo, descripcion, categoria, archivo)
                 setSubidosContador(i + 1)

@@ -49,6 +49,7 @@ export const fetchUsername = async () => {
 }
 
 export const fetchFormImagen = async (titulo, descripcion, categoria, archivo) => {
+
     const formData = new FormData();
     formData.append("titulo", titulo);
     formData.append("descripcion", descripcion);

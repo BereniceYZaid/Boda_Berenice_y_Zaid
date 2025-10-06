@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Bodoni+Moda+SC:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Serif:ital,opsz,wght@0,8..144,100..900;1,8..144,100..900&display=swap');
 @import "tailwindcss";
 
 @theme {
@@ -12,9 +14,15 @@
 }
 
 @layer utilities {
-  .font-dancing {
-    font-family: "Dancing Script", cursive;
-  }
+    .font-dancing {
+        font-family: "Dancing Script", cursive;
+    }
+    .font-bodoni {
+        font-family: "Bodoni Moda SC", serif;
+    }
+    .font-roboto-serif {
+        font-family: "Roboto Serif", serif;
+    }
 }
 
 @layer components{
