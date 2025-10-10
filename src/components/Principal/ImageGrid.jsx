@@ -18,16 +18,18 @@ export default function ImageGrid({images, category, isLoading, firstImage}) {
         setSelectedPhoto(null);
     };
 
-    const nextPhoto = () => {
+    const nextPhoto = (dir = 1) => {
         const nextIndex = (currentIndex + 1) % displayImages.length;
         setSelectedPhoto(displayImages[nextIndex]);
         setCurrentIndex(nextIndex);
+        return dir;
     }
 
-    const prevPhoto = () => {
+    const prevPhoto = (dir = -1) => {
         const prevIndex = (currentIndex - 1 + displayImages.length) % displayImages.length;
         setSelectedPhoto(displayImages[prevIndex]);
         setCurrentIndex(prevIndex);
+        return dir;
     }
 
     useEffect(() => {

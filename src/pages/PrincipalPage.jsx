@@ -27,13 +27,16 @@ const PrincipalPage = () => {
         isFetchingNextPage
     } = useInfiniteQuery({
         queryKey: ["images", category],
-        queryFn: ({ pageParam = 1 }) => {
-            // 🔹 Primer request: guardar el último ID
-            const lastID = images?.pages?.[0]?.lastID;
-            return fetchImagenes(pageParam, lastID, category);
+        queryFn: ({ pageParam }) => {
+            // Si no hay pageParam, es la primera carga (sin lastID)
+            // Si hay pageParam, es el lastID de la página anterior
+            return fetchImagenes(1, pageParam, category);
         },
-        getNextPageParam: (lastPage, allPages) =>
-            lastPage.hasMore ? allPages.length + 1 : undefined,
+        initialPageParam: undefined, // ✨ IMPORTANTE: Primera carga sin lastID
+        getNextPageParam: (lastPage) => {
+            // Si hay más páginas, devolver el lastID para la siguiente query
+            return lastPage.hasMore ? lastPage.lastID : undefined;
+        },
     });
 
     console.log(images?.pages[0]?.items[0]?._id);

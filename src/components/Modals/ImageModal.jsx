@@ -5,7 +5,7 @@ import {ChevronLeft, ChevronRight} from "lucide-react";
 const variants = {
     enter: (direction) => {
         return {
-            x: direction > 0 ? 100 : -100,
+            x: direction > 0 ? -100 : 100,
             opacity: 0
         };
     },
@@ -15,7 +15,7 @@ const variants = {
     },
     exit: (direction) => {
         return {
-            x: direction < 0 ? 100 : -100,
+            x: direction < 0 ? -100 : 100,
             opacity: 0
         };
     }
@@ -57,7 +57,7 @@ export default function ImageModal({image, closeModal, nextPhoto, prevPhoto, cur
             className="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50"
             onClick={closeModal}
         >
-            <div className="relative max-w-4xl max-h-[90vh] rounded-2xl overflow-hidden shadow-hover"
+            <div className="relative max-w-4xl max-h-[90vh] rounded-2xl shadow-hover flex items-center justify-center overflow-hidden"
                  onTouchStart={handleTouchStart}
                  onTouchEnd={handleTouchEnd}
                  onClick={(e) => e.stopPropagation()}
@@ -80,7 +80,7 @@ export default function ImageModal({image, closeModal, nextPhoto, prevPhoto, cur
                         <img
                             src={image.link}
                             alt={image.title}
-                            className="max-w-full max-h-full object-contain"
+                            className="max-w-[90vw] max-h-[90vh] object-contain"
                         />
 
                         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-6">
@@ -97,14 +97,20 @@ export default function ImageModal({image, closeModal, nextPhoto, prevPhoto, cur
                         <>
                             <button
                                 className="absolute top-1/2 left-2 -translate-y-1/2 scale-95 size-12 rounded-full ml-3 bg-white/20 backdrop-blur-md text-white transition-all duration-300 ease-out hover:text-black hover:bg-white/40 hover:scale-100 hover:cursor-pointer"
-                                onClick={prevPhoto}
+                                onClick={() => {
+                                    setDirection(-1);
+                                    prevPhoto();
+                                }}
                             >
                                 <ChevronLeft className="w-6 h-6 m-auto" />
                             </button>
 
                             <button
                                 className="absolute top-1/2 right-2 -translate-y-1/2 scale-95 size-12 rounded-full ml-3 bg-white/20 backdrop-blur-md text-white transition-all duration-300 ease-out hover:text-black hover:bg-white/40 hover:scale-100 hover:cursor-pointer"
-                                onClick={nextPhoto}
+                                onClick={() => {
+                                    setDirection(1);
+                                    nextPhoto();
+                                }}
                             >
                                 <ChevronRight className="w-6 h-6 m-auto" />
                             </button>
