@@ -11,8 +11,10 @@ import {
 import { Button } from "../ui/button.jsx";
 import {useState} from "react";
 import {fetchFormImagen} from "../../services/fetchers.js";
+import {showAlertSuccess} from "../Commons/AlertSuccess.jsx";
+import {showAlertError} from "../Commons/AlertError.jsx";
 
-export default function UploadModal({closeModal, categories}) {
+export default function UploadModal({closeModal, categories, queryClient}) {
 
     const [titulo, setTitulo] = useState("");
     const [categoria, setCategoria] = useState("")
@@ -20,6 +22,8 @@ export default function UploadModal({closeModal, categories}) {
     const [archivos, setArchivos] = useState([])
     const [subidosContador, setSubidosContador] = useState(0);
     const [estaSubiendo, setEstaSubiendo] = useState(false)
+
+    const uploadableCategories = categories.filter(cat => cat._id !== "todos");
 
     const cambiarArchivos = (e) => {
         const selectedFiles = Array.from(e.target.files);
@@ -35,10 +39,10 @@ export default function UploadModal({closeModal, categories}) {
 
         try {
             for (let i = 0; i < archivos.length; i++) {
-                console.log(1, archivos[i])
+                console.log(1, archivos[i]);
                 let archivo = archivos[i];
-                await fetchFormImagen(titulo, descripcion, categoria, archivo)
-                setSubidosContador(i + 1)
+                await fetchFormImagen(titulo, descripcion, categoria, archivo);
+                setSubidosContador(i + 1);
             }
 
             setTitulo("");
@@ -46,10 +50,18 @@ export default function UploadModal({closeModal, categories}) {
             setCategoria("");
             setArchivos([]);
             setSubidosContador(0);
+
+            await queryClient.invalidateQueries({
+                queryKey: ["images"]
+            });
+
+            showAlertSuccess("Fotos subidas exitosamente!");
             closeModal();
 
         } catch (error) {
+            showAlertError("Error al subir las fotos");
             console.error(error);
+            closeModal();
         }
     }
 
@@ -65,7 +77,7 @@ export default function UploadModal({closeModal, categories}) {
                         variant="ghost"
                         size="icon"
                         onClick={closeModal}
-                        className="rounded-full hover:bg-gray-100"
+                        className="rounded-full hover:bg-gray-100 cursor-pointer"
                     >
                         <X className="w-5 h-5" />
                     </Button>
@@ -91,13 +103,13 @@ export default function UploadModal({closeModal, categories}) {
                         </label>
 
                         <Select value={categoria} onValueChange={setCategoria} required>
-                            <SelectTrigger className={"rounded-xl border-gray-200 focus:border-rose-300 focus:ring-rose-200"}>
+                            <SelectTrigger className={"rounded-xl border-gray-200 focus:border-rose-300 focus:ring-rose-200 cursor-pointer"}>
                                 <SelectValue placeholder="Selecciona una categoría" />
                             </SelectTrigger>
                             <SelectContent>
-                                {categories.map((cat) => (
-                                    <SelectItem key={cat.id} value={cat.name}>
-                                        {cat.name}
+                                {uploadableCategories.map((cat) => (
+                                    <SelectItem key={cat.id} value={cat.nombre} className={"cursor-pointer"}>
+                                        {cat.nombre}
                                     </SelectItem>
                                 ))}
                             </SelectContent>
@@ -112,7 +124,7 @@ export default function UploadModal({closeModal, categories}) {
                                   className={"rounded-xl border-gray-200 focus:border-rose-300 focus:ring-rose-200 resize-none"}>
                         </Textarea>
 
-                        <label className="font-inter text-sm font-medium text-gray-700 mb-2 block">
+                        <label className="font-inter text-sm font-medium text-gray-700 mb-2 block my-2">
                             Fotos *
                         </label>
 
@@ -173,14 +185,14 @@ export default function UploadModal({closeModal, categories}) {
                             variant="outline"
                             onClick={closeModal}
                             disabled={estaSubiendo}
-                            className="flex-1 rounded-xl border-gray-200 hover:bg-gray-50"
+                            className="flex-1 rounded-xl border-gray-200 hover:bg-gray-50 cursor-pointer"
                         >
                             Cancelar
                         </Button>
                         <Button
                             type="submit"
                             disabled={!titulo || !categoria || archivos.length === 0 || estaSubiendo}
-                            className="flex-1 bg-gradient-to-r from-rose-500 to-violet-500 hover:from-rose-600 hover:to-violet-600 text-white rounded-xl shadow-soft hover:shadow-hover transition-all-smooth"
+                            className="flex-1 bg-gradient-to-r from-rose-500 to-violet-500 hover:from-rose-600 hover:to-violet-600 text-white rounded-xl shadow-soft hover:shadow-hover transition-all-smooth cursor-pointer"
                         >
                             {estaSubiendo ? (
                                 <>

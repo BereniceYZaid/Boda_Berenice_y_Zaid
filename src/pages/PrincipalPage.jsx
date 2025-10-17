@@ -5,11 +5,15 @@ import ImageGrid from "../components/Principal/ImageGrid.jsx";
 import Categories from "../components/Principal/Categories.jsx";
 import ImageLoad from "../components/Principal/ImageLoad.jsx";
 import Title from "../components/Principal/Title.jsx";
-import {fetchImagenes, fetchCategories, fetchUsername} from "../services/fetchers.js";
-import {useInfiniteQuery, useQuery} from "@tanstack/react-query";
+import {fetchImagenes, fetchCategories, comprobarAdmin} from "../services/fetchers.js";
+import {useInfiniteQuery, useQuery, useQueryClient} from "@tanstack/react-query";
 import React, {useState} from "react";
+import AlertContainer from "../components/Commons/AlertContainer.jsx";
+import {showAlertError} from "../components/Commons/AlertError.jsx";
 
 const PrincipalPage = () => {
+
+    const queryClient = useQueryClient();
 
     /* UseState */
 
@@ -39,9 +43,6 @@ const PrincipalPage = () => {
         },
     });
 
-    console.log(images?.pages[0]?.items[0]?._id);
-
-
     const {
         data: categories = [],
         isLoading: isLoadingCategories,
@@ -51,13 +52,16 @@ const PrincipalPage = () => {
         queryFn: fetchCategories,
     });
 
+    console.log("categories", categories);
+
     const {
-        data: username = {},
-        isLoading: isLoadingUsername,
-        error: errorUsername,
+        data: adminStatus,
+        isLoading: isLoadingAdmin,
     } = useQuery({
-        queryKey: ["username"],
-        queryFn: fetchUsername,
+        queryKey: ["adminStatus"],
+        queryFn: comprobarAdmin,
+        retry: false,
+        staleTime: 5 * 60 * 1000, // 5 minutos
     });
 
     /* Transformar datos */
@@ -65,6 +69,8 @@ const PrincipalPage = () => {
     const allImages = React.useMemo(() => {
         return images?.pages.flatMap((p) => p.items) ?? [];
     }, [images]);
+
+    const isAdmin = !!adminStatus?.success;
 
     /* UseEffects */
 
@@ -74,21 +80,27 @@ const PrincipalPage = () => {
         }
     },[allImages, sliderImages]);
 
+    /* Alertas */
+
+    React.useEffect(() => {
+        if (errorImages) showAlertError("Hubo un error al cargar las imagenes");
+    }, [errorImages]);
+
     /* Return */
 
     return <>
-        <Header user={username} isLoading={isLoadingUsername}
-                error={errorUsername} categories={categories}/>
-        <Title></Title>
+        <Header categories={categories} isLoading={sliderImages.length === 0} error={errorImages} queryClient={queryClient} />
+        <Title />
         <Slider images={sliderImages} isLoading={sliderImages.length === 0} error={errorImages} />
         <Categories categories={categories} isLoading={isLoadingCategories}
                     error={errorCategories} category={category}
-                    setCategory={setCategory} />
-        <ImageGrid images={allImages} category={category} isLoading={isLoadingImages} firstImage={allImages.length === 0} />
+                    setCategory={setCategory} isAdmin={isAdmin} />
+        <ImageGrid images={allImages} category={category} isLoading={isLoadingImages} firstImage={allImages.length === 0} isAdmin={isAdmin} categories={categories} />
         {hasNextPage && (
             <ImageLoad onLoadMore={fetchNextPage} disabled={isFetchingNextPage} />
         )}
-        <Footer />
+        <Footer isAdmin={isAdmin} isLoading={sliderImages.length === 0} error={errorImages} />
+        <AlertContainer />
     </>
 }
 

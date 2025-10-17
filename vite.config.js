@@ -4,8 +4,8 @@ import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-    server: {
-        allowedHosts: true
-    },
-  base: "/Boda_Berenice_y_Zaid/",
+  server: {
+    allowedHosts: true
+  },
+  base: "./"
 });
