@@ -47,7 +47,7 @@ export default function UploadModal({closeModal, categories, queryClient}) {
 
             setTitulo("");
             setCategoria("");
-            setCategoria("");
+            setDescripcion("");
             setArchivos([]);
             setSubidosContador(0);
 

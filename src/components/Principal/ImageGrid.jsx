@@ -109,6 +109,7 @@ export default function ImageGrid({images, category, isLoading, firstImage, isAd
                                 style={{ animationDelay: `${index * 25}ms` }} onClick={() => photoClick(image, index)}
                             >
                                 <ImageWithLoader
+                                    key={image._id || image.link}
                                     src={image.link}
                                     alt={image.title}
                                     className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-300 ease-in-out"
