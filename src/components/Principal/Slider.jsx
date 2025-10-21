@@ -80,7 +80,7 @@ export default function Slider({images, isLoading, error}) {
                 {/* Aqui se crean los puntos debajo del Slider */}
 
                 <div className="slider-dots mb-4 flex gap-2">
-                    {images.map((slide, index) => (
+                    {images.slice(0, 5).map((slide, index) => (
                         <button className={`w-2 h-2 rounded-full cursor-pointer ${activeIndex === index ? "bg-white" : "bg-white/40"}`}
                                 onClick={() => setActiveIndex(index)} key={index}></button>
                     ))}
